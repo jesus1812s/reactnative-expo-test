@@ -1,7 +1,7 @@
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 
-import { EditScreenInfo } from './EditScreenInfo';
 import Button from './ui/Button';
+import { InfoSlider } from './Onboarding';
 
 type ScreenContentProps = {
   title: string;
@@ -20,29 +20,17 @@ export const ScreenContent = ({ title, path, children }: ScreenContentProps) => 
 
   return (
     <View className={styles.container}>
-      <Text className={styles.title}>{title}</Text>
-      <View className={styles.separator} />
-      <EditScreenInfo path={path} />
+      <InfoSlider path={path} />
       <View className={styles.buttonContainer}>
-        <Button 
-          variant="primary" 
-          size="lg" 
-          onPress={handleLogin}
-          className={styles.button}
-        >
+        <Button variant="primary" size="lg" onPress={handleLogin} className={styles.button}>
           Ingresar
         </Button>
-        
-        <Button 
-          variant="secondary" 
-          size="lg" 
-          onPress={handleRegister}
-          className={styles.button}
-        >
+
+        <Button variant="secondary" size="lg" onPress={handleRegister} className={styles.button}>
           Registrarme
         </Button>
       </View>
-      
+
       {children}
     </View>
   );
