@@ -1,6 +1,7 @@
 import { Text, View } from 'react-native';
 
 import { EditScreenInfo } from './EditScreenInfo';
+import Button from './ui/Button';
 
 type ScreenContentProps = {
   title: string;
@@ -9,17 +10,47 @@ type ScreenContentProps = {
 };
 
 export const ScreenContent = ({ title, path, children }: ScreenContentProps) => {
+  const handleLogin = () => {
+    console.log('Navegando a Login...');
+  };
+
+  const handleRegister = () => {
+    console.log('Navegando a Register...');
+  };
+
   return (
     <View className={styles.container}>
       <Text className={styles.title}>{title}</Text>
       <View className={styles.separator} />
       <EditScreenInfo path={path} />
+      <View className={styles.buttonContainer}>
+        <Button 
+          variant="primary" 
+          size="lg" 
+          onPress={handleLogin}
+          className={styles.button}
+        >
+          Ingresar
+        </Button>
+        
+        <Button 
+          variant="secondary" 
+          size="lg" 
+          onPress={handleRegister}
+          className={styles.button}
+        >
+          Registrarme
+        </Button>
+      </View>
+      
       {children}
     </View>
   );
 };
 const styles = {
-  container: `items-center flex-1 justify-center`,
+  container: `items-center flex-1 justify-center bg-bg-primary`,
   separator: `h-[1px] my-7 w-4/5 bg-gray-200`,
-  title: `text-xl font-bold`,
+  title: `font-inter text-text-primary text-xl font-bold`,
+  buttonContainer: `w-4/5 mt-8 space-y-4`,
+  button: `w-full rounded-full my-2`,
 };
