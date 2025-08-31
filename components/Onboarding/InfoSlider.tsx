@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { View, Animated } from 'react-native';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import { runOnJS } from 'react-native-reanimated';
 import { OnboardingScreen, ProgressBar } from './components';
 
 export const InfoSlider = ({ path }: { path: string }) => {
@@ -36,22 +38,27 @@ export const InfoSlider = ({ path }: { path: string }) => {
     }).start();
   }, [progressAnim]);
 
-  useEffect(() => {
+  const startSlideTimer = useCallback(() => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+    
     startProgressAnimation();
     
     intervalRef.current = setInterval(() => {
-      setCurrentSlide((prev) => {
-        const nextSlide = (prev + 1) % totalSlides;
-        return nextSlide;
-      });
+      setCurrentSlide((prev) => (prev + 1) % totalSlides);
     }, 10000);
+  }, [startProgressAnimation, totalSlides]);
+
+  useEffect(() => {
+    startSlideTimer();
 
     return () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
       }
     };
-  }, [startProgressAnimation, totalSlides]);
+  }, [startSlideTimer]);
 
   useEffect(() => {
     startProgressAnimation();
@@ -60,19 +67,36 @@ export const InfoSlider = ({ path }: { path: string }) => {
   const currentSlideData = slidesData[currentSlide];
 
   const handleIndicatorPress = (index: number) => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-    }
-    
     setCurrentSlide(index);
     
-    // Restart the interval after manual selection
+    // Restart the timer after manual selection
     setTimeout(() => {
-      intervalRef.current = setInterval(() => {
-        setCurrentSlide((prev) => (prev + 1) % totalSlides);
-      }, 10000);
+      startSlideTimer();
     }, 100);
   };
+
+  const handleSwipe = useCallback((direction: 'left' | 'right') => {
+    if (direction === 'right') {
+      setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides);
+    } else {
+      setCurrentSlide((prev) => (prev + 1) % totalSlides);
+    }
+    
+    setTimeout(() => {
+      startSlideTimer();
+    }, 100);
+  }, [totalSlides, startSlideTimer]);
+
+  const panGesture = Gesture.Pan()
+    .onEnd((event) => {
+      const { translationX } = event;
+      const swipeThreshold = 50;
+      
+      if (Math.abs(translationX) > swipeThreshold) {
+        const direction = translationX > 0 ? 'right' : 'left';
+        runOnJS(handleSwipe)(direction);
+      }
+    });
 
   return (
     <View className={styles.container}>
@@ -83,14 +107,16 @@ export const InfoSlider = ({ path }: { path: string }) => {
         progress={progressAnim}
       />
 
-      <View className={styles.slideContainer}>
-        <OnboardingScreen
-          path={path}
-          title={currentSlideData.title}
-          description={currentSlideData.description}
-          imageSource={currentSlideData.imageSource}
-        />
-      </View>
+      <GestureDetector gesture={panGesture}>
+        <View className={styles.slideContainer}>
+          <OnboardingScreen
+            path={path}
+            title={currentSlideData.title}
+            description={currentSlideData.description}
+            imageSource={currentSlideData.imageSource}
+          />
+        </View>
+      </GestureDetector>
     </View>
   );
 };

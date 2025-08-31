@@ -27,9 +27,9 @@ export const OnboardingScreen = ({ path, title, description, imageSource }: Onbo
 
 const styles = {
   container: `max-w-4/5`,
-  imageContainer: `items-center mb-8`,
-  image: `w-full h-128`,
-  getStartedContainer: `items-center mx-8 mt-4 max-w-[350px]`,
-  getStartedText: `font-inter text-4xl font-extrabold text-text-primary leading-12 text-center mb-4 max-w-80`,
+  imageContainer: `items-center`,
+  image: `w-4/5 h-auto`,
+  getStartedContainer: `items-center mx-8 mt-4 max-w-4/5`,
+  getStartedText: `font-inter text-4xl font-extrabold text-text-primary leading-12 text-center mb-4 max-w-72`,
   getStartedTextDescription: `font-inter text-lg font-medium text-text-secondary leading-[24px] text-center px-4`,
 };

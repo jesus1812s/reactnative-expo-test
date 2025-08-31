@@ -26,7 +26,7 @@ export const ScreenContent = ({ path, children }: ScreenContentProps) => {
           size="lg"
           onPress={handleLogin}
           className={styles.button}
-          textClassName="font-inter font-medium color-bg-primary text-lg tracking-wide">
+          textClassName="font-inter font-bold color-bg-primary text-lg tracking-wide">
           Ingresar
         </Button>
 
@@ -35,7 +35,7 @@ export const ScreenContent = ({ path, children }: ScreenContentProps) => {
           size="lg"
           onPress={handleRegister}
           className={styles.button}
-          textClassName="font-inter font-medium color-bg-primary text-lg tracking-wide">
+          textClassName="font-inter font-bold color-bg-primary text-lg tracking-wide">
           Registrarme
         </Button>
       </View>

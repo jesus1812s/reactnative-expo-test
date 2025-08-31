@@ -9,6 +9,7 @@ import {
   Inter_700Bold,
   Inter_800ExtraBold,
 } from '@expo-google-fonts/inter';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import './global.css';
 
@@ -34,9 +35,9 @@ export default function App() {
   }
 
   return (
-    <>
+    <GestureHandlerRootView style={{ flex: 1 }}>
       <ScreenContent path="App.tsx"></ScreenContent>
       <StatusBar style="auto" />
-    </>
+    </GestureHandlerRootView>
   );
 }
