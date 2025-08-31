@@ -16,8 +16,11 @@ module.exports = {
       },
       fontFamily: {
         //Como la sans siempre es la por defecto le obligo a que sea inter igual
-        'sans': ['Inter', 'system-ui', 'sans-serif'],
-        'inter': ['Inter', 'system-ui', 'sans-serif'],
+        'sans': ['Inter_400Regular', 'system-ui', 'sans-serif'],
+        'inter': ['Inter_400Regular', 'system-ui', 'sans-serif'],
+        'inter-semibold': ['Inter_600SemiBold', 'system-ui', 'sans-serif'],
+        'inter-bold': ['Inter_700Bold', 'system-ui', 'sans-serif'],
+        'inter-extrabold': ['Inter_800ExtraBold', 'system-ui', 'sans-serif'],
       },
     },
   },
