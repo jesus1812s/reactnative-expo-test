@@ -6,6 +6,7 @@ interface ButtonProps extends TouchableOpacityProps {
   size?: 'sm' | 'md' | 'lg';
   children: React.ReactNode;
   className?: string;
+  textClassName?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -13,10 +14,15 @@ const Button: React.FC<ButtonProps> = ({
   size = 'md',
   children,
   className = '',
+  textClassName = '',
   disabled,
   ...props
 }) => {
-  let buttonClasses = 'rounded-lg items-center justify-center ';
+  let buttonClasses = 'items-center justify-center ';
+  
+  if (!className.includes('rounded')) {
+    buttonClasses += 'rounded-lg ';
+  }
   
   if (variant === 'primary') {
     buttonClasses += 'bg-buttons-primary ';
@@ -36,18 +42,25 @@ const Button: React.FC<ButtonProps> = ({
     buttonClasses += 'opacity-50 ';
   }
   
-  // Clases personalizadas
   buttonClasses += className;
   
-  let textClasses = 'font-inter font-semibold ';
-   
-  if (size === 'sm') {
-    textClasses += 'text-sm';
-  } else if (size === 'lg') {
-    textClasses += 'text-lg';
-  } else {
-    textClasses += 'text-base';
+  let textClasses = 'font-inter ';
+  
+  if (!textClassName.includes('font-')) {
+    textClasses += 'font-semibold ';
   }
+   
+  if (!textClassName.includes('text-')) {
+    if (size === 'sm') {
+      textClasses += 'text-sm ';
+    } else if (size === 'lg') {
+      textClasses += 'text-lg ';
+    } else {
+      textClasses += 'text-base ';
+    }
+  }
+  
+  textClasses += textClassName;
   
   return (
     <TouchableOpacity

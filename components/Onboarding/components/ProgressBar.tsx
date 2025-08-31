@@ -38,8 +38,8 @@ export const ProgressBar = ({ totalSlides, currentSlide, onSlidePress, progress 
 };
 
 const styles = {
-  container: `flex-row justify-center items-center mb-8 px-8`,
-  progressBarContainer: `flex-1 h-1 mx-1 relative max-w-20`,
+  container: `flex-row justify-center items-center mt-24 px-8`,
+  progressBarContainer: `flex-1 h-1 mx-1 relative max-w-10`,
   progressBarBackground: `absolute w-full h-full bg-gray-400 rounded-full opacity-30`,
   progressBarFill: `absolute h-full bg-buttons-primary rounded-full`,
   progressBarComplete: `absolute w-full h-full bg-buttons-primary rounded-full`,

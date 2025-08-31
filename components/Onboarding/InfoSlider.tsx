@@ -31,7 +31,7 @@ export const InfoSlider = ({ path }: { path: string }) => {
     progressAnim.setValue(0);
     Animated.timing(progressAnim, {
       toValue: 1,
-      duration: 3000,
+      duration: 10000,
       useNativeDriver: false,
     }).start();
   }, [progressAnim]);
@@ -44,7 +44,7 @@ export const InfoSlider = ({ path }: { path: string }) => {
         const nextSlide = (prev + 1) % totalSlides;
         return nextSlide;
       });
-    }, 3000);
+    }, 10000);
 
     return () => {
       if (intervalRef.current) {
@@ -70,7 +70,7 @@ export const InfoSlider = ({ path }: { path: string }) => {
     setTimeout(() => {
       intervalRef.current = setInterval(() => {
         setCurrentSlide((prev) => (prev + 1) % totalSlides);
-      }, 3000);
+      }, 10000);
     }, 100);
   };
 
