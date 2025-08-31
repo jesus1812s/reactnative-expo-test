@@ -1,52 +1,101 @@
-import React, { useState, useEffect } from 'react';
-import { View } from 'react-native';
-import { OnboardingScreen1, OnboardingScreen2, OnboardingScreen3 } from './components';
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { View, Animated } from 'react-native';
+import { OnboardingScreen, ProgressBar } from './components';
 
 export const InfoSlider = ({ path }: { path: string }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  
-  const components = [
-    <OnboardingScreen1 path={path} key="screen1" />,
-    <OnboardingScreen2 path={path} key="screen2" />,
-    <OnboardingScreen3 path={path} key="screen3" />
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const progressAnim = useRef(new Animated.Value(0)).current;
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  const slidesData = [
+    {
+      title: 'Compra ahora y paga después',
+      description: 'Compra tus productos favoritos, pagando en cuotas flexibles.',
+      imageSource: require('../../assets/onboarding/onboarding-1/onboarding-1.png'),
+    },
+    {
+      title: 'Gestiona tus compras y cuotas',
+      description: 'Gestiona tus compras y realiza tus pagos sin complicaciónes.',
+      imageSource: require('../../assets/onboarding/onboarding-2/onboarding-2.png'),
+    },
+    {
+      title: 'Un nuevo mundo de compras',
+      description: 'Únete al futuro, y descubre la comonidad y flexibilidad de comprar con Finity.',
+      imageSource: require('../../assets/onboarding/onboarding-3/onboarding-3.png'),
+    },
   ];
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => 
-        prevIndex === components.length - 1 ? 0 : prevIndex + 1
-      );
-    }, 3000); // Cambia cada 3 segundos
+  const totalSlides = slidesData.length;
 
-    return () => clearInterval(interval);
-  }, [components.length]);
+  const startProgressAnimation = useCallback(() => {
+    progressAnim.setValue(0);
+    Animated.timing(progressAnim, {
+      toValue: 1,
+      duration: 3000,
+      useNativeDriver: false,
+    }).start();
+  }, [progressAnim]);
+
+  useEffect(() => {
+    startProgressAnimation();
+    
+    intervalRef.current = setInterval(() => {
+      setCurrentSlide((prev) => {
+        const nextSlide = (prev + 1) % totalSlides;
+        return nextSlide;
+      });
+    }, 3000);
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [startProgressAnimation, totalSlides]);
+
+  useEffect(() => {
+    startProgressAnimation();
+  }, [currentSlide, startProgressAnimation]);
+
+  const currentSlideData = slidesData[currentSlide];
+
+  const handleIndicatorPress = (index: number) => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+    
+    setCurrentSlide(index);
+    
+    // Restart the interval after manual selection
+    setTimeout(() => {
+      intervalRef.current = setInterval(() => {
+        setCurrentSlide((prev) => (prev + 1) % totalSlides);
+      }, 3000);
+    }, 100);
+  };
 
   return (
     <View className={styles.container}>
+      <ProgressBar
+        totalSlides={totalSlides}
+        currentSlide={currentSlide}
+        onSlidePress={handleIndicatorPress}
+        progress={progressAnim}
+      />
+
       <View className={styles.slideContainer}>
-        {components[currentIndex]}
-      </View>
-      
-      <View className={styles.dotsContainer}>
-        {components.map((_, index) => (
-          <View
-            key={index}
-            className={`${
-              index === currentIndex 
-                ? styles.activeDot 
-                : styles.inactiveDot
-            }`}
-          />
-        ))}
+        <OnboardingScreen
+          path={path}
+          title={currentSlideData.title}
+          description={currentSlideData.description}
+          imageSource={currentSlideData.imageSource}
+        />
       </View>
     </View>
   );
 };
 
 const styles = {
-  container: `w-full`,
-  slideContainer: `min-h-[120px] justify-center`,
-  dotsContainer: `flex-row justify-center items-center mt-4 space-x-2`,
-  activeDot: `w-3 h-3 rounded-full bg-buttons-primary`,
-  inactiveDot: `w-2 h-2 rounded-full bg-gray-300`,
+  container: `w-full flex-1 justify-center`,
+  slideContainer: `flex-1 justify-center`,
 };

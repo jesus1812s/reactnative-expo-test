@@ -37,7 +37,6 @@ export const ScreenContent = ({ title, path, children }: ScreenContentProps) => 
 };
 const styles = {
   container: `items-center flex-1 justify-center bg-bg-primary`,
-  separator: `h-[1px] my-7 w-4/5 bg-gray-200`,
   title: `font-inter text-text-primary text-xl font-bold`,
   buttonContainer: `w-4/5 mt-8 space-y-4`,
   button: `w-full rounded-full my-2`,
