@@ -4,7 +4,7 @@ Esta es una aplicación del onBoarding como parte de un test para un puesto labo
 
 ## 🔧 Instalación
 
-Este proyecto fue desarrollado con React Native y Expo a partir de el comando de nativeWind [URL](https://www.nativewind.dev/docs/getting-started/installation):
+Este proyecto fue desarrollado con React Native y Expo a partir de el comando de [NativeWind](https://www.nativewind.dev/docs/getting-started/installation):
 
 ```bash
 npx rn-new@latest --nativewind
@@ -80,7 +80,15 @@ npx rn-new@latest --nativewind
 - **React Native Gesture Handler** - Manejo de gestos
 - **Expo Router** - Navegación basada en archivos
 
-## 📱 Capturas de Pantalla
+## Troubleshooting
+### Problemas comunes
+
+- **Error apenas corre el emulador por primera vez(Android)**: Tienes que cerrar la aplicación que genero expo en tu emulador de android y tienes que volver a darle para abrir el emulador desde la terminal de expo (darle click a la 'a' con el teclado). 
+- **Error de compilación**: Asegúrate de tener todas las dependencias instaladas (`npm install`).
+- **Problemas con el emulador**: Verifica que el emulador esté funcionando y que la conexión con Expo esté correcta.
+- **Problemas con el dispositivo**: Asegúrate de que el dispositivo esté conectado y configurado correctamente.
+
+- **Si sigues teniendo problemas**: Puedes revisar la documentación de Expo y React Native para más ayuda. [Expo](https://docs.expo.dev/get-started/set-up-your-environment/?platform=android&device=simulated)
 
 ### Onboarding
 
